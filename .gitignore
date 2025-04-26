@@ -1,0 +1,8 @@
+# ignore build directory
+build/
+
+.vs/
+
+.vscode/
+
+*.aps

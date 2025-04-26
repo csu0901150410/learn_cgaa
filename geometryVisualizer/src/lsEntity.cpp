@@ -15,3 +15,13 @@ lsObjectId lsEntity::get_id() const
 {
     return id;
 }
+
+bool lsEntity::is_selected() const
+{
+    return bSelected;
+}
+
+void lsEntity::set_selected(bool selected)
+{
+    bSelected = selected;
+}

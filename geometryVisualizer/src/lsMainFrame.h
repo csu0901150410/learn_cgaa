@@ -23,9 +23,12 @@ private:
     void OnOpen(wxCommandEvent& event);
     void OnSave(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-    void OnAddLine(wxCommandEvent& event);
+    
     void OnUndo(wxCommandEvent& event);
     void OnRedo(wxCommandEvent& event);
+
+    void OnAddLine(wxCommandEvent& event);
+    void OnSingleSelection(wxCommandEvent& event);
 
 private:
     std::unique_ptr<lsDocument> m_document;

@@ -11,7 +11,7 @@ public:
     
 // 实现接口
 public:
-    void draw(IRenderContext& renderer, bool isSelected) const override;
+    void draw(IRenderContext& renderer) const override;
     bool hit_test(const lsPoint& p) const override;
 
 private:

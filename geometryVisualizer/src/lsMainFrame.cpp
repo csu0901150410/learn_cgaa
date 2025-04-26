@@ -11,7 +11,8 @@
 
 // 自定义菜单项ID
 enum {
-    ID_AddLine = wxID_HIGHEST + 1
+    ID_AddLine = wxID_HIGHEST + 1,
+    ID_SelectElement
 };
 
 lsMainFrame::lsMainFrame()
@@ -30,6 +31,7 @@ lsMainFrame::lsMainFrame()
 
     Bind(wxEVT_PAINT, &lsMainFrame::OnPaint, this);
     Bind(wxEVT_MENU, &lsMainFrame::OnAddLine, this, ID_AddLine);
+    Bind(wxEVT_MENU, &lsMainFrame::OnSingleSelection, this, ID_SelectElement);
 }
 
 void lsMainFrame::OnPaint(wxPaintEvent &event)
@@ -81,6 +83,11 @@ void lsMainFrame::CreateMenuBar()
     editMenu->AppendSeparator();
     editMenu->Append(ID_AddLine, "Add &Line");
     m_menuBar->Append(editMenu, "&Edit");
+
+    // Selection 菜单
+    wxMenu* selectionMenu = new wxMenu;
+    selectionMenu->Append(ID_SelectElement, "Select");
+    m_menuBar->Append(selectionMenu, "&Selection");
     
     SetMenuBar(m_menuBar);
 }
@@ -128,9 +135,20 @@ void lsMainFrame::OnExit(wxCommandEvent& event)
 // 添加图元
 void lsMainFrame::OnAddLine(wxCommandEvent& event)
 {
-    auto layer = m_document->add_layer(std::make_unique<lsLayer>("Layer " + std::to_string(m_document->get_layers().size() + 1)));
+    // auto layer = m_document->add_layer(std::make_unique<lsLayer>("Layer " + std::to_string(m_document->get_layers().size() + 1)));
+    // layer->append_entity(std::make_unique<lsLine>(lsPoint(200, 100), lsPoint(200, 200)));
+    // m_renderView->Refresh();
+
+    if (m_document->get_layers().empty())
+        return;
+    auto layer = m_document->get_work_layer();
     layer->append_entity(std::make_unique<lsLine>(lsPoint(200, 100), lsPoint(200, 200)));
     m_renderView->Refresh();
+}
+
+void lsMainFrame::OnSingleSelection(wxCommandEvent &event)
+{
+    m_renderView->set_selection_mode(true);
 }
 
 // 撤销操作

@@ -7,21 +7,10 @@
 
 #include <fstream>
 
-#include "lsLine.h"
-
-// 自定义菜单项ID
-enum {
-    ID_AddLine = wxID_HIGHEST + 1,
-    ID_SelectElement
-};
-
 lsMainFrame::lsMainFrame()
     : wxFrame(nullptr, wxID_ANY, "Geometry Visualizer")
 {
     SetMinSize(wxSize(800, 600));
-
-    // 初始化文档和视图
-    InitDocument();
     
     // 创建UI
     CreateMenuBar();
@@ -29,37 +18,41 @@ lsMainFrame::lsMainFrame()
     // 设置窗口图标
     SetIcon(wxICON(app_icon));  // 需提供图标资源
 
+    Bind(wxEVT_CLOSE_WINDOW, &lsMainFrame::OnClose, this);
     Bind(wxEVT_PAINT, &lsMainFrame::OnPaint, this);
-    Bind(wxEVT_MENU, &lsMainFrame::OnAddLine, this, ID_AddLine);
-    Bind(wxEVT_MENU, &lsMainFrame::OnSingleSelection, this, ID_SelectElement);
+    Bind(wxEVT_SIZE, &lsMainFrame::OnSize, this);
+    Bind(wxEVT_MOUSEWHEEL, &lsMainFrame::OnWheel, this);
+    Bind(wxEVT_MOTION, &lsMainFrame::OnMouseMove, this);
+    Bind(wxEVT_LEFT_DOWN, &lsMainFrame::OnMouseLeftDown, this);
+
+    Bind(wxEVT_MENU, &lsMainFrame::OnQuit, this, ID_MenuQuit);
+    Bind(wxEVT_MENU, &lsMainFrame::OnOpen, this, ID_MenuOpen);
+    Bind(wxEVT_MENU, &lsMainFrame::OnFit, this, ID_MenuFit);
 }
 
 void lsMainFrame::OnPaint(wxPaintEvent &event)
 {
-    wxSize size = GetClientSize();
-    int a = 10;
+
 }
 
-// 初始化文档数据
-void lsMainFrame::InitDocument()
+void lsMainFrame::OnSize(wxSizeEvent& event)
 {
-    m_document = std::make_unique<lsDocument>();
-    
-    // 添加默认图层和示例图元
-    auto layer = m_document->add_layer(std::make_unique<lsLayer>("Default"));
-        layer->append_entity(std::make_unique<lsLine>(lsPoint(50, 50), lsPoint(150, 150)));
-    
-    // 创建渲染视图并绑定文档
-    m_renderView = new lsRenderView(this);
-    m_renderView->set_document(m_document.get());
-    
-    // 布局
-    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(m_renderView, 1, wxEXPAND);
-    SetSizer(sizer);
-    Fit();
 
-    Layout();
+}
+
+void lsMainFrame::OnWheel(wxMouseEvent& event)
+{
+
+}
+
+void lsMainFrame::OnMouseMove(wxMouseEvent& event)
+{
+
+}
+
+void lsMainFrame::OnMouseLeftDown(wxMouseEvent& event)
+{
+
 }
 
 // 创建菜单栏
@@ -69,96 +62,48 @@ void lsMainFrame::CreateMenuBar()
     
     // File 菜单
     wxMenu* fileMenu = new wxMenu;
-    fileMenu->Append(wxID_NEW, "&New\tCtrl+N");
-    fileMenu->Append(wxID_OPEN, "&Open\tCtrl+O");
-    fileMenu->Append(wxID_SAVE, "&Save\tCtrl+S");
+    fileMenu->Append(ID_MenuOpen, "&Open\tCtrl+O");
     fileMenu->AppendSeparator();
-    fileMenu->Append(wxID_EXIT, "E&xit\tAlt+F4");
+    fileMenu->Append(ID_MenuQuit, "Q&uit\tAlt+F4");
     m_menuBar->Append(fileMenu, "&File");
     
     // Edit 菜单
     wxMenu* editMenu = new wxMenu;
-    editMenu->Append(wxID_UNDO, "&Undo\tCtrl+Z");
-    editMenu->Append(wxID_REDO, "&Redo\tCtrl+Y");
-    editMenu->AppendSeparator();
-    editMenu->Append(ID_AddLine, "Add &Line");
     m_menuBar->Append(editMenu, "&Edit");
 
-    // Selection 菜单
-    wxMenu* selectionMenu = new wxMenu;
-    selectionMenu->Append(ID_SelectElement, "Select");
-    m_menuBar->Append(selectionMenu, "&Selection");
+    // View 菜单
+    wxMenu* viewMenu = new wxMenu;
+    viewMenu->Append(ID_MenuFit, "Fit Contents");
+    m_menuBar->Append(viewMenu, "&View");
     
     SetMenuBar(m_menuBar);
+
+    SetBackgroundColour(*wxBLACK);
 }
 
 // --- 事件处理函数 ---
 
-// 新建文档
-void lsMainFrame::OnNew(wxCommandEvent& event)
-{
-    m_document = std::make_unique<lsDocument>();
-    m_renderView->set_document(m_document.get());
-    m_renderView->Refresh();
-}
-
 // 打开文件
 void lsMainFrame::OnOpen(wxCommandEvent& event)
 {
-    wxFileDialog dialog(this, "Open Document", "", "", 
-                        "JSON Files (*.json)|*.json", wxFD_OPEN);
-    if (dialog.ShowModal() == wxID_OK)
-    {
-        std::ifstream file(dialog.GetPath().ToStdString());
-        
-        m_renderView->Refresh();
-    }
+    
 }
 
-// 保存文件
-void lsMainFrame::OnSave(wxCommandEvent& event)
+void lsMainFrame::OnFit(wxCommandEvent& event)
 {
-    wxFileDialog dialog(this, "Save Document", "", "", 
-                        "JSON Files (*.json)|*.json", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-    if (dialog.ShowModal() == wxID_OK)
-    {
-        std::ofstream file(dialog.GetPath().ToStdString());
-    }
+
+}
+
+// 关闭窗口
+void lsMainFrame::OnClose(wxCloseEvent& event)
+{
+    Destroy();
 }
 
 // 退出程序
-void lsMainFrame::OnExit(wxCommandEvent& event)
+void lsMainFrame::OnQuit(wxCommandEvent& event)
 {
-    Close(true);
+    Destroy();
 }
 
-// 添加图元
-void lsMainFrame::OnAddLine(wxCommandEvent& event)
-{
-    // auto layer = m_document->add_layer(std::make_unique<lsLayer>("Layer " + std::to_string(m_document->get_layers().size() + 1)));
-    // layer->append_entity(std::make_unique<lsLine>(lsPoint(200, 100), lsPoint(200, 200)));
-    // m_renderView->Refresh();
 
-    if (m_document->get_layers().empty())
-        return;
-    auto layer = m_document->get_work_layer();
-    layer->append_entity(std::make_unique<lsLine>(lsPoint(200, 100), lsPoint(200, 200)));
-    m_renderView->Refresh();
-}
-
-void lsMainFrame::OnSingleSelection(wxCommandEvent &event)
-{
-    m_renderView->set_selection_mode(true);
-}
-
-// 撤销操作
-void lsMainFrame::OnUndo(wxCommandEvent& event)
-{
-    
-}
-
-// 重做操作
-void lsMainFrame::OnRedo(wxCommandEvent& event)
-{
-    
-}

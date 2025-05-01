@@ -2,37 +2,34 @@
 
 #include <wx/wx.h>
 #include <memory>
-#include "lsDocument.h"
-#include "lsRenderView.h"
 
 class lsMainFrame : public wxFrame
 {
 public:
     lsMainFrame();
 
-    void OnPaint(wxPaintEvent& event);
-
 // ui相关
 private:
-    wxMenuBar* m_menuBar;
-
-    void CreateMenuBar();
+	// 自定义菜单项ID
+	enum {
+		ID_MenuQuit = wxID_HIGHEST + 1,
+        ID_MenuOpen,
+        ID_MenuFit
+	};
 
     // 事件处理函数
-    void OnNew(wxCommandEvent& event);
+    void OnClose(wxCloseEvent& event);
+    void OnQuit(wxCommandEvent& event);
     void OnOpen(wxCommandEvent& event);
-    void OnSave(wxCommandEvent& event);
-    void OnExit(wxCommandEvent& event);
-    
-    void OnUndo(wxCommandEvent& event);
-    void OnRedo(wxCommandEvent& event);
+    void OnFit(wxCommandEvent& event);
 
-    void OnAddLine(wxCommandEvent& event);
-    void OnSingleSelection(wxCommandEvent& event);
+    void OnPaint(wxPaintEvent& event);
+    void OnSize(wxSizeEvent& event);
+    void OnWheel(wxMouseEvent& event);
+    void OnMouseMove(wxMouseEvent& event);
+    void OnMouseLeftDown(wxMouseEvent& event);
 
 private:
-    std::unique_ptr<lsDocument> m_document;
-    lsRenderView* m_renderView;
-
-    void InitDocument();
+    wxMenuBar* m_menuBar;
+    void CreateMenuBar();
 };

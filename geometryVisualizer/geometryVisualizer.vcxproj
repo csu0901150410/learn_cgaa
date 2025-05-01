@@ -138,26 +138,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\lsDocument.cpp" />
-    <ClCompile Include="src\lsEntity.cpp" />
-    <ClCompile Include="src\lsLayer.cpp" />
-    <ClCompile Include="src\lsLine.cpp" />
     <ClCompile Include="src\lsMainFrame.cpp" />
-    <ClCompile Include="src\lsPoint.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\WxRenderContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\IRenderContext.h" />
     <ClInclude Include="src\lsCommon.h" />
-    <ClInclude Include="src\lsDocument.h" />
-    <ClInclude Include="src\lsEntity.h" />
-    <ClInclude Include="src\lsLayer.h" />
-    <ClInclude Include="src\lsLine.h" />
     <ClInclude Include="src\lsMainFrame.h" />
-    <ClInclude Include="src\lsPoint.h" />
-    <ClInclude Include="src\lsRenderView.h" />
-    <ClInclude Include="src\WxRenderContext.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

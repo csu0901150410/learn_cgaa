@@ -12,54 +12,12 @@
     <ClCompile Include="src\lsMainFrame.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\WxRenderContext.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsPoint.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsDocument.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsEntity.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\lsLine.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\lsMainFrame.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\IRenderContext.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WxRenderContext.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsPoint.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\lsCommon.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsDocument.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsEntity.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsLayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsLine.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\lsRenderView.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
